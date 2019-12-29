@@ -1,5 +1,4 @@
 import pygame as pg
-import random
 
 from core.settings import GAME_NAME, SCREEN_SIZE
 from core.game import Game
