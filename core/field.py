@@ -1,9 +1,8 @@
 import pygame as pg
-from .utils import WHITE, BLACK
-from .settings import SCREEN_WIDTH, SCREEN_HEIGHT
+from .utils import BLUE, BLACK, get_cell_coordinates
+from .settings import SCREEN_WIDTH, SCREEN_HEIGHT, CELL_SIZE
 
 class Field:
-    CELL_SIZE = 50
     WIDTH = (SCREEN_WIDTH - 300) // CELL_SIZE
     HEIGHT = SCREEN_HEIGHT // CELL_SIZE
 
@@ -15,9 +14,9 @@ class Field:
     def render(self):
         for i in range(self.HEIGHT):
             for j in range(self.WIDTH):
-                cell = pg.Rect(j * self.CELL_SIZE, i * self.CELL_SIZE, self.CELL_SIZE, self.CELL_SIZE)
+                cell = pg.Rect(*get_cell_coordinates(j, i), CELL_SIZE, CELL_SIZE)
                 self.cells[i][j] = cell
-                pg.draw.rect(self.surface, WHITE, cell, 1)
+                pg.draw.rect(self.surface, self.colors[i][j], cell, 2)
 
     def get_cell(self, mouse_pos):
         for i in range(self.HEIGHT):
@@ -28,9 +27,8 @@ class Field:
 
     def on_click(self, cell):
         x, y = cell
-        color = BLACK if self.colors[x][y] == WHITE else WHITE
+        color = BLACK if self.colors[x][y] == BLUE else BLUE
         self.colors[x][y] = color
-        pg.draw.rect(self.surface, color, self.cells[x][y])
 
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)
