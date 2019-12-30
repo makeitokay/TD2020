@@ -5,15 +5,17 @@ from .settings import FPS
 from .field import Field
 
 class Game:
-    def __init__(self, surface):
+    def __init__(self, surface, level=1):
         self.surface = surface
         self.clock = pg.time.Clock()
-        self.field = Field(self.surface)
 
         self.sprite_groups = {
             "all": pg.sprite.Group(),
-            "platforms": pg.sprite.Group()
+            "platforms": pg.sprite.Group(),
+            "weapons": pg.sprite.Group()
         }
+
+        self.field = Field(self, self.surface, level)
 
     def run(self):
         while True:
@@ -23,6 +25,9 @@ class Game:
 
     def update(self):
         self.field.render()
+        self.sprite_groups["all"].update()
+        self.sprite_groups["all"].draw(self.surface)
+
         pg.display.update()
 
     def events(self):

@@ -1,14 +1,22 @@
 import pygame as pg
-from .utils import BLUE, BLACK, get_cell_coordinates
+from .utils import BLUE, BLACK, get_cell_coordinates, load_level
 from .settings import FIELD_WIDTH, FIELD_HEIGHT, CELL_SIZE
+from .objects.platforms.platform import Platform
+from .objects.platforms.weapon import Weapon
 
 class Field:
     WIDTH = FIELD_WIDTH
     HEIGHT = FIELD_HEIGHT
 
-    def __init__(self, surface):
+    def __init__(self, game, surface, level=1):
+        self.game = game
         self.surface = surface
+        self.level = level
+
         self.cells = [[0] * self.WIDTH for _ in range(self.HEIGHT)]
+
+        self.init_level()
+
         self.colors = [[BLACK] * self.WIDTH for _ in range(self.HEIGHT)]
 
     def render(self):
@@ -34,3 +42,12 @@ class Field:
         cell = self.get_cell(mouse_pos)
         if cell:
             self.on_click(cell)
+
+    def init_level(self):
+        level = load_level(self.level)
+        for i in range(len(level)):
+            for j in range(len(level[i])):
+                if level[i][j] == "w":
+                    self.cells[i][j] = Weapon(self.game, (j, i))
+                else:
+                    self.cells[i][j] = Platform(self.game, (j, i))
