@@ -14,7 +14,8 @@ class Game:
             "platforms": pg.sprite.Group(),
             "weapons": pg.sprite.Group(),
             "spawn": pg.sprite.Group(),
-            "base": pg.sprite.Group()
+            "base": pg.sprite.Group(),
+            "road": pg.sprite.Group()
         }
 
         self.field = Field(self, self.surface, level)

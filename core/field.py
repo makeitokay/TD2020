@@ -5,6 +5,7 @@ from .objects.platforms.platform import Platform
 from .objects.platforms.weapon import Weapon
 from .objects.platforms.spawn import Spawn
 from .objects.platforms.base import Base
+from .objects.platforms.road import Road
 
 class Field:
     WIDTH = FIELD_WIDTH
@@ -55,5 +56,7 @@ class Field:
                     self.cells[i][j] = Spawn(self.game, (j, i))
                 elif level[i][j] == "b":
                     self.cells[i][j] = Base(self.game, (j, i))
+                elif level[i][j] in (">", "v", "<", "^"):
+                    self.cells[i][j] = Road(self.game, (j, i), way=level[i][j])
                 else:
                     self.cells[i][j] = Platform(self.game, (j, i))
