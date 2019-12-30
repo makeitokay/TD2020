@@ -10,6 +10,7 @@ class GameObject(pg.sprite.Sprite):
         super().__init__(*(game.sprite_groups[g] for g in ('all', *self.SPRITE_GROUPS)))
 
         self.game = game
+        self.x, self.y = cell
 
         if self.IMAGE is None:
             self.image = pg.Surface((0, 0))

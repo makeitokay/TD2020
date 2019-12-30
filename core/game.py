@@ -10,6 +10,11 @@ class Game:
         self.clock = pg.time.Clock()
         self.field = Field(self.surface)
 
+        self.sprite_groups = {
+            "all": pg.sprite.Group(),
+            "platforms": pg.sprite.Group()
+        }
+
     def run(self):
         while True:
             self.events()
