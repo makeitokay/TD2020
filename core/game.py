@@ -12,7 +12,9 @@ class Game:
         self.sprite_groups = {
             "all": pg.sprite.Group(),
             "platforms": pg.sprite.Group(),
-            "weapons": pg.sprite.Group()
+            "weapons": pg.sprite.Group(),
+            "spawn": pg.sprite.Group(),
+            "base": pg.sprite.Group()
         }
 
         self.field = Field(self, self.surface, level)

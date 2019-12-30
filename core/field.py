@@ -3,6 +3,8 @@ from .utils import BLUE, BLACK, get_cell_coordinates, load_level
 from .settings import FIELD_WIDTH, FIELD_HEIGHT, CELL_SIZE
 from .objects.platforms.platform import Platform
 from .objects.platforms.weapon import Weapon
+from .objects.platforms.spawn import Spawn
+from .objects.platforms.base import Base
 
 class Field:
     WIDTH = FIELD_WIDTH
@@ -49,5 +51,9 @@ class Field:
             for j in range(len(level[i])):
                 if level[i][j] == "w":
                     self.cells[i][j] = Weapon(self.game, (j, i))
+                elif level[i][j] == "s":
+                    self.cells[i][j] = Spawn(self.game, (j, i))
+                elif level[i][j] == "b":
+                    self.cells[i][j] = Base(self.game, (j, i))
                 else:
                     self.cells[i][j] = Platform(self.game, (j, i))
