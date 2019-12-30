@@ -1,6 +1,6 @@
 import pygame as pg
 from os import path
-from .settings import CELL_SIZE
+from .settings import CELL_SIZE, FIELD_WIDTH, FIELD_HEIGHT
 
 # Colors
 
@@ -23,3 +23,14 @@ def load_image(filename):
 
 def get_cell_coordinates(x, y):
     return x * CELL_SIZE, y * CELL_SIZE
+
+
+def load_level(number):
+    fullname = path.join("data", "levels", str(number) + ".txt")
+    level = [["*" for _ in range(FIELD_WIDTH)] for __ in range(FIELD_HEIGHT)]
+    with open(fullname) as f:
+        level_data = [row.strip() for row in f]
+    for i in range(len(level_data)):
+        for j in range(len(level_data[i])):
+            level[i][j] = level_data[i][j]
+    return level

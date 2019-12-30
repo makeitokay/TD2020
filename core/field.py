@@ -1,10 +1,10 @@
 import pygame as pg
 from .utils import BLUE, BLACK, get_cell_coordinates
-from .settings import SCREEN_WIDTH, SCREEN_HEIGHT, CELL_SIZE
+from .settings import FIELD_WIDTH, FIELD_HEIGHT, CELL_SIZE
 
 class Field:
-    WIDTH = (SCREEN_WIDTH - 300) // CELL_SIZE
-    HEIGHT = SCREEN_HEIGHT // CELL_SIZE
+    WIDTH = FIELD_WIDTH
+    HEIGHT = FIELD_HEIGHT
 
     def __init__(self, surface):
         self.surface = surface
