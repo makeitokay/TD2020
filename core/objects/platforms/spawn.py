@@ -6,6 +6,10 @@ from .platform import Platform
 class Spawn(Platform):
     IMAGE = "platforms/spawn.png"
     SPRITE_GROUPS = ["platforms", "spawn"]
+
+    INFO_HEADER = "ПОРТАЛ"
+    INFO_DESCRIPTION = "Это портал. Здесь появляются мобы."
+
     FRAMES_CHANGING = 35
 
     def __init__(self, game, cell):

@@ -1,8 +1,10 @@
 import pygame as pg
 
 from core.utils import terminate
-from .settings import FPS
+from .settings import FPS, FIELD_WIDTH, CELL_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH
 from .field import Field
+from random import randint
+# from .text import Text
 
 class Game:
     def __init__(self, surface, level=1):
@@ -15,10 +17,15 @@ class Game:
             "weapons": pg.sprite.Group(),
             "spawn": pg.sprite.Group(),
             "base": pg.sprite.Group(),
-            "road": pg.sprite.Group()
+            "road": pg.sprite.Group(),
+            "text": pg.sprite.Group(),
+
+            "info": None
         }
 
         self.field = Field(self, self.surface, level)
+
+        self.right_block = pg.Surface((SCREEN_WIDTH - FIELD_WIDTH * CELL_SIZE, SCREEN_HEIGHT))
 
     def run(self):
         while True:
@@ -28,6 +35,10 @@ class Game:
 
     def update(self):
         self.field.render()
+
+        self.right_block.fill((0, 0, 0))
+        self.surface.blit(self.right_block, (FIELD_WIDTH * CELL_SIZE, 0))
+
         self.sprite_groups["all"].update()
         self.sprite_groups["all"].draw(self.surface)
 
