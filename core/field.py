@@ -2,11 +2,12 @@ import pygame as pg
 from .utils import BLUE, BLACK, get_cell_coordinates, load_level
 from .settings import FIELD_WIDTH, FIELD_HEIGHT, CELL_SIZE
 
-from .objects.platforms.platform import Platform
-from .objects.platforms.weapon import Weapon
-from .objects.platforms.spawn import Spawn
-from .objects.platforms.base import Base
-from .objects.platforms.road import Road
+from .objects.platforms import load_object
+# from .objects.platforms.platform import Platform
+# from .objects.platforms.weapon import Weapon
+# from .objects.platforms.spawn import Spawn
+# from .objects.platforms.base import Base
+# from .objects.platforms.road import Road
 from .objects.info import Info
 
 class Field:
@@ -21,6 +22,7 @@ class Field:
         self.cells_rects = [[None] * self.WIDTH for _ in range(self.HEIGHT)]
         self.cells_objects = [[None] * self.WIDTH for _ in range(self.HEIGHT)]
 
+        # self.cells_objects = load_level(self.game, 1)
         self.init_level()
 
         self.selected_cell = None
@@ -60,13 +62,4 @@ class Field:
         level = load_level(self.level)
         for i in range(len(level)):
             for j in range(len(level[i])):
-                if level[i][j] == "w":
-                    self.cells_objects[i][j] = Weapon(self.game, (j, i))
-                elif level[i][j] == "s":
-                    self.cells_objects[i][j] = Spawn(self.game, (j, i))
-                elif level[i][j] == "b":
-                    self.cells_objects[i][j] = Base(self.game, (j, i))
-                elif level[i][j] in (">", "v", "<", "^"):
-                    self.cells_objects[i][j] = Road(self.game, (j, i), way=level[i][j])
-                else:
-                    self.cells_objects[i][j] = Platform(self.game, (j, i))
+                self.cells_objects[i][j] = load_object(self.game, level[i][j], (j, i))
