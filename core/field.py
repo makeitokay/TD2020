@@ -3,11 +3,6 @@ from .utils import BLUE, BLACK, get_cell_coordinates, load_level
 from .settings import FIELD_WIDTH, FIELD_HEIGHT, CELL_SIZE
 
 from .objects.platforms import load_object
-# from .objects.platforms.platform import Platform
-# from .objects.platforms.weapon import Weapon
-# from .objects.platforms.spawn import Spawn
-# from .objects.platforms.base import Base
-# from .objects.platforms.road import Road
 from .objects.info import Info
 
 class Field:
@@ -22,7 +17,6 @@ class Field:
         self.cells_rects = [[None] * self.WIDTH for _ in range(self.HEIGHT)]
         self.cells_objects = [[None] * self.WIDTH for _ in range(self.HEIGHT)]
 
-        # self.cells_objects = load_level(self.game, 1)
         self.init_level()
 
         self.selected_cell = None

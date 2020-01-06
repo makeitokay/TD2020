@@ -14,11 +14,12 @@ class Game:
         self.sprite_groups = {
             "all": pg.sprite.Group(),
             "platforms": pg.sprite.Group(),
-            "weapons": pg.sprite.Group(),
+            "weapon_platforms": pg.sprite.Group(),
             "spawn": pg.sprite.Group(),
             "base": pg.sprite.Group(),
             "road": pg.sprite.Group(),
             "text": pg.sprite.Group(),
+            "weapons": pg.sprite.Group(),
 
             "info": None
         }

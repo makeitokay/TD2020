@@ -1,11 +1,11 @@
 import pygame as pg
 
-from .platform import Platform
+from core.objects.platforms.platform import Platform
 
 
-class Weapon(Platform):
+class WeaponPlatform(Platform):
     IMAGE = "platforms/weapon.png"
-    SPRITE_GROUPS = ["platforms", "weapons"]
+    SPRITE_GROUPS = ["platforms", "weapon_platforms"]
 
     INFO_HEADER = "ПЛАТФОРМА"
     INFO_DESCRIPTION = "Это платформа. Здесь должны располагаться ваши башни."

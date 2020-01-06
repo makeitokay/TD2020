@@ -2,12 +2,12 @@ from .base import Base
 from .platform import Platform
 from .road import Road
 from .spawn import Spawn
-from .weapon import Weapon
+from core.objects.platforms.weapon_platform import WeaponPlatform
 
 
 def load_object(game, symbol, cell):
     if symbol == "w":
-        return Weapon(game, cell)
+        return WeaponPlatform(game, cell)
     elif symbol == "s":
         return Spawn(game, cell)
     elif symbol == "b":
