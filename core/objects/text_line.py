@@ -1,7 +1,6 @@
 import pygame as pg
 
 from .gameobject import GameObject
-from random import randint
 
 
 class TextLine(GameObject):

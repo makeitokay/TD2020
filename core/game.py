@@ -1,10 +1,10 @@
 import pygame as pg
 
-from core.utils import terminate
-from .settings import FPS, FIELD_WIDTH, CELL_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH
+from core.objects.coin_counter import CoinCounter
+from core.utils import terminate, load_image
+from .settings import FPS, FIELD_WIDTH, CELL_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH, FIELD_HEIGHT
 from .field import Field
-from random import randint
-# from .text import Text
+
 
 class Game:
     def __init__(self, surface, level=1):
@@ -28,6 +28,12 @@ class Game:
 
         self.right_block = pg.Surface((SCREEN_WIDTH - FIELD_WIDTH * CELL_SIZE, SCREEN_HEIGHT))
 
+        self.coins = 200
+        self.coin_image = load_image("coin.png")
+        self.coin_counter = CoinCounter(self)
+
+        self.play_image = load_image("play.png")
+
     def run(self):
         while True:
             self.events()
@@ -40,6 +46,9 @@ class Game:
         self.right_block.fill((0, 0, 0))
         self.surface.blit(self.right_block, (FIELD_WIDTH * CELL_SIZE, 0))
 
+        self.surface.blit(self.coin_image, (95, FIELD_HEIGHT * CELL_SIZE + 40))
+        self.surface.blit(self.play_image, (15, FIELD_HEIGHT * CELL_SIZE + 40))
+
         self.sprite_groups["all"].update()
         self.sprite_groups["all"].draw(self.surface)
 
@@ -50,4 +59,12 @@ class Game:
             if event.type == pg.QUIT:
                 terminate()
             elif event.type == pg.MOUSEBUTTONUP:
-                self.field.get_click(event.pos)
+                self.mouse_click_handler(event.pos)
+
+    def mouse_click_handler(self, pos):
+        cell = self.field.get_cell(pos)
+        if cell:
+            self.field.on_click(cell)
+        else:
+            self.field.unselect_cell()
+

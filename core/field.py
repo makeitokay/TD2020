@@ -37,23 +37,23 @@ class Field:
         return None
 
     def on_click(self, cell):
-        self.selected_cell = cell
+        self.unselect_cell()
 
-        info = self.game.sprite_groups["info"]
-        if isinstance(info, Info):
-            info.kill_sprites()
+        self.selected_cell = cell
 
         x, y = cell
         cell_obj = self.cells_objects[x][y]
         self.game.sprite_groups["info"] = Info(self.game, cell_obj)
-
-    def get_click(self, mouse_pos):
-        cell = self.get_cell(mouse_pos)
-        if cell:
-            self.on_click(cell)
 
     def init_level(self):
         level = load_level(self.level)
         for i in range(len(level)):
             for j in range(len(level[i])):
                 self.cells_objects[i][j] = load_object(self.game, level[i][j], (j, i))
+
+    def unselect_cell(self):
+        self.selected_cell = None
+
+        info = self.game.sprite_groups["info"]
+        if isinstance(info, Info):
+            info.kill_sprites()

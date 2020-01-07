@@ -14,3 +14,5 @@ def load_object(game, symbol, cell):
         return Base(game, cell)
     elif symbol in (">", "v", "<", "^"):
         return Road(game, cell, way=symbol)
+    else:
+        return Platform(game, cell)
