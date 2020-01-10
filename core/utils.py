@@ -21,6 +21,11 @@ def load_image(filename):
     return pg.image.load(fullname).convert_alpha()
 
 
+def scale_image(image, coefficient):
+    width, height = int(image.get_width() * coefficient), int(image.get_height() * coefficient)
+    return pg.transform.scale(image, (width, height))
+
+
 def get_cell_coordinates(x, y):
     return x * CELL_SIZE, y * CELL_SIZE
 

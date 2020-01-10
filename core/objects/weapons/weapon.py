@@ -1,14 +1,17 @@
 import pygame as pg
-from ...gameobject import GameObject
+from core.objects.gameobject import GameObject
 
 
 class Weapon(GameObject):
     SPRITE_GROUPS = ["weapons"]
     IMAGE = None
 
+    NAME = None
+
     def __init__(self, game, cell):
         super().__init__(game, cell)
 
+        self.cost = 0
         self.damage = 0
         self.radius = 0
         self.attack_speed = 0

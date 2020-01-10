@@ -21,6 +21,13 @@ class Field:
 
         self.selected_cell = None
 
+    @property
+    def selected_cell_obj(self):
+        if self.selected_cell is None:
+            return
+        x, y = self.selected_cell
+        return self.cells_objects[x][y] if self.selected_cell else None
+
     def render(self):
         for i in range(self.HEIGHT):
             for j in range(self.WIDTH):

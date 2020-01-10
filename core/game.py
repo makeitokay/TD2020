@@ -5,6 +5,9 @@ from core.utils import terminate, load_image
 from .settings import FPS, FIELD_WIDTH, CELL_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH, FIELD_HEIGHT
 from .field import Field
 
+from .objects.platforms.weapon_platform import WeaponPlatform
+
+from .weapon_shop import WeaponShop
 
 class Game:
     def __init__(self, surface, level=1):
@@ -19,7 +22,9 @@ class Game:
             "base": pg.sprite.Group(),
             "road": pg.sprite.Group(),
             "text": pg.sprite.Group(),
+
             "weapons": pg.sprite.Group(),
+            "base_weapons": pg.sprite.Group(),
 
             "info": None
         }
@@ -34,6 +39,8 @@ class Game:
 
         self.play_image = load_image("play.png")
 
+        self.weapon_shop = WeaponShop(self)
+
     def run(self):
         while True:
             self.events()
@@ -44,6 +51,8 @@ class Game:
         self.field.render()
 
         self.right_block.fill((0, 0, 0))
+        if isinstance(self.field.selected_cell_obj, WeaponPlatform):
+            self.right_block.blit(self.weapon_shop, (0, 100))
         self.surface.blit(self.right_block, (FIELD_WIDTH * CELL_SIZE, 0))
 
         self.surface.blit(self.coin_image, (95, FIELD_HEIGHT * CELL_SIZE + 40))
