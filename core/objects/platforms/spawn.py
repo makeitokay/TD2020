@@ -5,12 +5,11 @@ from .platform import Platform
 
 class Spawn(Platform):
     IMAGE = "platforms/spawn.png"
+    INFO_IMAGE = "platforms_info/spawn.png"
+
     SPRITE_GROUPS = ["platforms", "spawn"]
 
-    INFO_HEADER = "ПОРТАЛ"
-    INFO_DESCRIPTION = "Это портал. Здесь появляются мобы."
-
-    FRAMES_CHANGING = 35
+    FRAMES_CHANGING = 30
 
     def __init__(self, game, cell):
         super().__init__(game, cell)

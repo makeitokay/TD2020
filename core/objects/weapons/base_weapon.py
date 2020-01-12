@@ -5,7 +5,9 @@ from .weapon import Weapon
 
 class BaseWeapon(Weapon):
     SPRITE_GROUPS = ["weapons", "base_weapons"]
+
     IMAGE = "weapons/base_weapon.png"
+    SHOP_IMAGE = "weapon_shop/base_weapon.png"
 
     NAME = "Базовая"
 

@@ -5,7 +5,7 @@ from .spawn import Spawn
 from core.objects.platforms.weapon_platform import WeaponPlatform
 
 
-def load_object(game, symbol, cell):
+def load_platform(game, symbol, cell):
     if symbol == "w":
         return WeaponPlatform(game, cell)
     elif symbol == "s":

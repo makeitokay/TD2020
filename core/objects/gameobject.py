@@ -1,21 +1,24 @@
 import pygame as pg
-from ..utils import load_image, get_cell_coordinates
+from ..utils import load_image
 
 
 class GameObject(pg.sprite.Sprite):
     IMAGE = None
     SPRITE_GROUPS = []
 
-    def __init__(self, game, cell=None, pos=None):
+    def __init__(self, game, field=None, cell=None, pos=None):
         """
         :param game: экземпляр класса ядра игры
-        :param cell: клетка, в которой располагается объект в формате (x, y)
-        :param pos: если координаты клетки не передаются, должна передаваться позиция объекта напрямую
+        :param field: объект поля, в котором находится спрайт
+        :param cell: клетка поля, в которой располагается спрайт в формате (x, y)
+        :param pos: координаты спрайта в явном формате (если он не находится в клетке поля)
         """
 
         super().__init__(*(game.sprite_groups[g] for g in ('all', *self.SPRITE_GROUPS)))
 
         self.game = game
+        self.field = field
+        self.cell = cell
 
         if self.IMAGE is None:
             self.image = pg.Surface((0, 0))
@@ -26,4 +29,8 @@ class GameObject(pg.sprite.Sprite):
         if cell is None:
             self.rect.x, self.rect.y = pos
         else:
-            self.rect.x, self.rect.y = get_cell_coordinates(*cell)
+            self.rect.x, self.rect.y = self.field.get_cell_coordinates(cell)
+
+    @property
+    def pos(self):
+        return self.rect.topleft

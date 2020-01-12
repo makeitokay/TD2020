@@ -1,12 +1,13 @@
 import pygame as pg
 from os import path
-from .settings import CELL_SIZE, FIELD_WIDTH, FIELD_HEIGHT
+from .settings import GAME_FIELD_WIDTH, GAME_FIELD_HEIGHT
 
 # Colors
 
 BLACK = pg.Color("BLACK")
 WHITE = pg.Color("WHITE")
 BLUE = pg.Color(0, 255, 255)
+GOLD = pg.Color(255, 223, 0)
 
 
 # Useful functions
@@ -26,13 +27,9 @@ def scale_image(image, coefficient):
     return pg.transform.scale(image, (width, height))
 
 
-def get_cell_coordinates(x, y):
-    return x * CELL_SIZE, y * CELL_SIZE
-
-
 def load_level(number):
     fullname = path.join("data", "levels", str(number) + ".txt")
-    level = [["*" for _ in range(FIELD_WIDTH)] for __ in range(FIELD_HEIGHT)]
+    level = [["*" for _ in range(GAME_FIELD_WIDTH)] for __ in range(GAME_FIELD_HEIGHT)]
     with open(fullname) as f:
         level_data = [row.strip() for row in f]
     for i in range(len(level_data)):
