@@ -1,5 +1,7 @@
 import pygame as pg
 from os import path
+import json
+
 from .settings import GAME_FIELD_WIDTH, GAME_FIELD_HEIGHT
 
 # Colors
@@ -8,6 +10,7 @@ BLACK = pg.Color("BLACK")
 WHITE = pg.Color("WHITE")
 BLUE = pg.Color(0, 255, 255)
 GOLD = pg.Color(255, 223, 0)
+RED = pg.Color("RED")
 
 
 # Useful functions
@@ -36,3 +39,9 @@ def load_level(number):
         for j in range(len(level_data[i])):
             level[i][j] = level_data[i][j]
     return level
+
+
+def load_waves(number):
+    fullname = path.join("data", "levels", "waves", str(number) + ".json")
+    with open(fullname) as f:
+        return json.load(f)

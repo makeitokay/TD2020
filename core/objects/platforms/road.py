@@ -9,6 +9,13 @@ class Road(Platform):
 
     SPRITE_GROUPS = ["platforms", "road"]
 
+    WAYS = {
+        ">": (1, 0),
+        "v": (0, 1),
+        "<": (-1, 0),
+        "^": (0, -1)
+    }
+
     def __init__(self, game, cell, way):
         super().__init__(game, cell)
 

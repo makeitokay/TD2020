@@ -9,3 +9,5 @@ pg.display.set_caption(GAME_NAME)
 
 game = Game(screen)
 game.run()
+
+# TODO: импорты, порядок переменных в классах, документация, комментарии

@@ -26,8 +26,7 @@ class Field(pg.Surface):
     def selected_cell_obj(self):
         if self.selected_cell is None:
             return
-        x, y = self.selected_cell
-        return self.field[y][x]
+        return self.get_cell_obj(self.selected_cell)
 
     def render(self):
         self.fill((0, 0, 0))
@@ -36,12 +35,16 @@ class Field(pg.Surface):
         if self.selected_cell:
             self.blit(self.cell_stroke_image, self.get_cell_rect(self.selected_cell).topleft)
 
-    def get_cell(self, mouse_pos):
+    def get_cell(self, pos):
         for i in range(self.HEIGHT):
             for j in range(self.WIDTH):
-                if self.get_cell_rect((j, i), in_field=False).contains(pg.Rect(*mouse_pos, 1, 1)):
+                if self.get_cell_rect((j, i), in_field=False).contains(pg.Rect(*pos, 1, 1)):
                     return j, i
         return None
+
+    def get_cell_obj(self, cell):
+        x, y = cell
+        return self.field[y][x]
 
     def on_click(self, cell):
         # Отменяем выделение клетки только в том случае, если кликнули на другую клетку

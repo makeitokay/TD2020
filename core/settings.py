@@ -27,5 +27,8 @@ SPRITE_GROUPS = [
     "weapons",
     "base_weapons",
 
-    "weapon_shop_objects"
+    "weapon_shop_objects",
+
+    "enemies",
+    "normal_enemies"
 ]

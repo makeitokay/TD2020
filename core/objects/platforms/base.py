@@ -11,3 +11,7 @@ class Base(Platform):
 
     def __init__(self, game, cell):
         super().__init__(game, cell)
+
+    def update(self):
+        if pg.sprite.spritecollide(self, self.game.sprite_groups["enemies"], dokill=True):
+            self.game.hp -= 1
