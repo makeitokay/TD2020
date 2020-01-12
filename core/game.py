@@ -31,6 +31,11 @@ class Game:
 
         self.weapon_shop = WeaponShopField(self, (RIGHT_BLOCK_X, 100))
         self.weapon_shop.init_shop()
+        self.click_to_confirm_image = load_image("click_to_confirm.png")
+
+    @property
+    def weapon_shop_opened(self):
+        return isinstance(self.game_field.selected_cell_obj, WeaponPlatform)
 
     def run(self):
         while True:
@@ -48,9 +53,11 @@ class Game:
         if isinstance(self.game_field.selected_cell_obj, Platform):
             self.surface.blit(self.game_field.selected_cell_obj.info_image, (RIGHT_BLOCK_X, 0))
 
-        if isinstance(self.game_field.selected_cell_obj, WeaponPlatform):
+        if self.weapon_shop_opened:
             self.weapon_shop.render()
             self.surface.blit(self.weapon_shop, (RIGHT_BLOCK_X, 100))
+            if self.weapon_shop.selected_cell_obj is not None:
+                self.surface.blit(self.click_to_confirm_image, (RIGHT_BLOCK_X, 310))
 
         self.surface.blit(self.coin_image, (85, 580))
         self.surface.blit(self.coin_counter.image, (145, 580))
@@ -67,13 +74,19 @@ class Game:
                 self.mouse_click_handler(event.pos)
 
     def mouse_click_handler(self, pos):
-        self.weapon_shop.unselect_cell()
         if cell := self.game_field.get_cell(pos):
             self.game_field.on_click(cell)
-        elif cell := self.weapon_shop.get_cell(pos):
+        elif (cell := self.weapon_shop.get_cell(pos)) and self.weapon_shop_opened:
             self.weapon_shop.on_click(cell)
         else:
             self.game_field.unselect_cell()
 
     def get_coins(self):
         return self.coins
+
+    def buy_weapon(self, weapon_class):
+        if self.coins < weapon_class.COST:
+            return
+
+        self.coins -= weapon_class.COST
+        self.game_field.set_weapon(weapon_class)

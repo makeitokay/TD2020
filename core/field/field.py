@@ -44,7 +44,10 @@ class Field(pg.Surface):
         return None
 
     def on_click(self, cell):
-        self.unselect_cell()
+        # Отменяем выделение клетки только в том случае, если кликнули на другую клетку
+        if self.selected_cell != cell:
+            self.unselect_cell()
+
         x, y = cell
         self.selected_cell = (x, y)
 

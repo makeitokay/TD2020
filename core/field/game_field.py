@@ -25,3 +25,7 @@ class GameField(Field):
         for i in range(len(level)):
             for j in range(len(level[i])):
                 self.field[i][j] = load_platform(self.game, level[i][j], (j, i))
+
+    def set_weapon(self, weapon_class):
+        x, y = self.selected_cell
+        self.field[y][x] = weapon_class(self.game, (x, y))

@@ -27,3 +27,11 @@ class WeaponShopField(Field):
                 if index == len(WEAPONS):
                     return
                 self.field[i][j] = WeaponShopObject(self.game, (i, j), WEAPONS[index])
+
+    def on_click(self, cell):
+        # Если кликнули на уже выбранную клетку, значит произошла покупка башни
+        if self.selected_cell_obj is not None and self.selected_cell == cell:
+            self.game.buy_weapon(self.selected_cell_obj.weapon_class)
+            self.unselect_cell()
+            return
+        super().on_click(cell)

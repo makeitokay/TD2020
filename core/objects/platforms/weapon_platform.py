@@ -11,3 +11,5 @@ class WeaponPlatform(Platform):
 
     def __init__(self, game, cell):
         super().__init__(game, cell)
+
+        self.weapon = None

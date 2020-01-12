@@ -9,3 +9,5 @@ class WeaponShopObject(GameObject):
         self.IMAGE = weapon_class.SHOP_IMAGE
 
         super().__init__(game, game.weapon_shop, cell)
+
+        self.weapon_class = weapon_class

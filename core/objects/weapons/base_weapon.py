@@ -11,7 +11,7 @@ class BaseWeapon(Weapon):
 
     NAME = "Базовая"
 
+    COST = 48
+
     def __init__(self, game, cell):
         super().__init__(game, cell)
-
-        self.cost = 48
