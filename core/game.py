@@ -2,7 +2,7 @@ import pygame as pg
 
 from core.objects.dynamic_text import DynamicText
 from core.utils import terminate, load_image, GOLD
-from .settings import FPS, GAME_FIELD_WIDTH, CELL_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH, GAME_FIELD_HEIGHT
+from .settings import FPS, SPRITE_GROUPS, RIGHT_BLOCK_X
 from core.field.game_field import GameField
 
 from core.objects.platforms.platform import Platform
@@ -17,19 +17,7 @@ class Game:
         self.clock = pg.time.Clock()
 
         self.sprite_groups = {
-            "all": pg.sprite.Group(),
-            "platforms": pg.sprite.Group(),
-            "weapon_platforms": pg.sprite.Group(),
-            "spawn": pg.sprite.Group(),
-            "base": pg.sprite.Group(),
-            "road": pg.sprite.Group(),
-            "text": pg.sprite.Group(),
-
-            "weapons": pg.sprite.Group(),
-            "weapon_shop_objects": pg.sprite.Group(),
-            "base_weapons": pg.sprite.Group(),
-
-            "info": pg.sprite.Group()
+            group: pg.sprite.Group() for group in SPRITE_GROUPS
         }
 
         self.game_field = GameField(self, (0, 0), level)
@@ -41,7 +29,7 @@ class Game:
 
         self.play_image = load_image("play.png")
 
-        self.weapon_shop = WeaponShopField(self, (GAME_FIELD_WIDTH * CELL_SIZE, 100))
+        self.weapon_shop = WeaponShopField(self, (RIGHT_BLOCK_X, 100))
         self.weapon_shop.init_shop()
 
     def run(self):
@@ -58,11 +46,11 @@ class Game:
         self.surface.blit(self.game_field, (0, 0))
 
         if isinstance(self.game_field.selected_cell_obj, Platform):
-            self.surface.blit(self.game_field.selected_cell_obj.info_image, (GAME_FIELD_WIDTH * CELL_SIZE, 0))
+            self.surface.blit(self.game_field.selected_cell_obj.info_image, (RIGHT_BLOCK_X, 0))
 
         if isinstance(self.game_field.selected_cell_obj, WeaponPlatform):
             self.weapon_shop.render()
-            self.surface.blit(self.weapon_shop, (GAME_FIELD_WIDTH * CELL_SIZE, 100))
+            self.surface.blit(self.weapon_shop, (RIGHT_BLOCK_X, 100))
 
         self.surface.blit(self.coin_image, (85, 580))
         self.surface.blit(self.coin_counter.image, (145, 580))
@@ -80,9 +68,9 @@ class Game:
 
     def mouse_click_handler(self, pos):
         self.weapon_shop.unselect_cell()
-        if (cell := self.game_field.get_cell(pos)):
+        if cell := self.game_field.get_cell(pos):
             self.game_field.on_click(cell)
-        elif (cell := self.weapon_shop.get_cell(pos)):
+        elif cell := self.weapon_shop.get_cell(pos):
             self.weapon_shop.on_click(cell)
         else:
             self.game_field.unselect_cell()
