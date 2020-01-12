@@ -1,6 +1,5 @@
 import pygame as pg
 
-from core.objects.coin_counter import CoinCounter
 from core.objects.dynamic_text import DynamicText
 from core.utils import terminate, load_image, GOLD
 from .settings import FPS, GAME_FIELD_WIDTH, CELL_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH, GAME_FIELD_HEIGHT
