@@ -8,3 +8,5 @@ class NormalEnemy(Enemy):
 
     def __init__(self, game, pos):
         super().__init__(game, pos=pos)
+
+        self.hp = 1

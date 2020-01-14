@@ -13,6 +13,8 @@ class Enemy(GameObject):
 
         self.current_way = None
 
+        self.hp = 0
+
     def update(self):
         self.current_cell = self.game.game_field.get_cell_obj(self.game.game_field.get_cell((self.pos)))
         if isinstance(self.current_cell, Road):
@@ -24,3 +26,8 @@ class Enemy(GameObject):
         dx, dy = Road.WAYS[self.current_way]
         self.rect.x += dx
         self.rect.y += dy
+
+    def hit(self, damage):
+        self.hp -= damage
+        if self.hp <= 0:
+            self.kill()

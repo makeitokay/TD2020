@@ -34,3 +34,9 @@ class GameObject(pg.sprite.Sprite):
     @property
     def pos(self):
         return self.rect.topleft
+
+    def __sub__(self, other):
+        if self.cell:
+            cell = other.cell if other.cell else self.field.get_cell(other.pos)
+            return abs(self.cell[0] - cell[0]), abs(self.cell[1] - cell[1])
+        return abs(self.rect.x - other.rect.x), abs(self.rect.y - other.rect.y)
