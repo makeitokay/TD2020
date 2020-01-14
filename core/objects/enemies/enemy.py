@@ -2,11 +2,17 @@ from core.objects.gameobject import GameObject
 from core.objects.platforms.road import Road
 from core.utils import get_center_distance_from_way
 
+import pygame as pg
 
 class Enemy(GameObject):
     IMAGE = None
 
     SPRITE_GROUPS = ["enemies"]
+
+    HP_BAR_LENGTH = 30
+    HP_BAR_HEIGHT = 7
+
+    MAX_HP = 0
 
     def __init__(self, game, pos):
         super().__init__(game, pos=pos)
@@ -31,3 +37,11 @@ class Enemy(GameObject):
         self.hp -= damage
         if self.hp <= 0:
             self.kill()
+
+    def draw_hp_bar(self):
+        length = 30
+        fill = (self.hp / self.MAX_HP) * length
+        outline_rect = pg.Rect(self.rect.x, self.rect.y - 10, self.HP_BAR_LENGTH, self.HP_BAR_HEIGHT)
+        fill_rect = pg.Rect(self.rect.x, self.rect.y - 10, fill, self.HP_BAR_HEIGHT)
+        pg.draw.rect(self.game.surface, pg.Color("GREEN"), fill_rect)
+        pg.draw.rect(self.game.surface, pg.Color("WHITE"), outline_rect, 2)

@@ -85,6 +85,9 @@ class Game:
 
         self.sprite_groups["enemies"].draw(self.surface)
 
+        for enemy in self.sprite_groups["enemies"].sprites():
+            enemy.draw_hp_bar()
+
         pg.display.update()
 
     def events(self):
