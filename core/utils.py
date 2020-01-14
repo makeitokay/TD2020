@@ -45,3 +45,11 @@ def load_waves(number):
     fullname = path.join("data", "levels", "waves", str(number) + ".json")
     with open(fullname) as f:
         return json.load(f)
+
+
+def get_center_distance_from_way(rect1, rect2, way):
+    dx = abs(rect1.center[0] - rect2.center[0])
+    dy = abs(rect1.center[1] - rect2.center[1])
+    if way in (">", "<"):
+        return dx
+    return dy
