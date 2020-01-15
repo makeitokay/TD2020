@@ -1,7 +1,7 @@
 import pygame as pg
 
 from core.objects.dynamic_text import DynamicText
-from core.utils import terminate, load_image, GOLD, load_waves, WHITE, RED
+from core.utils import terminate, load_image, GOLD, WHITE, RED
 from .settings import FPS, SPRITE_GROUPS, RIGHT_BLOCK_X
 from core.field.game_field import GameField
 
@@ -10,6 +10,7 @@ from .objects.platforms.weapon_platform import WeaponPlatform
 
 from core.field.weapon_shop_field import WeaponShopField
 from core.events import ENEMY_SPAWN, NEXT_WAVE
+from core.objects.buttons.play_button import PlayButton
 
 
 class Game:
@@ -17,6 +18,8 @@ class Game:
         self.surface = surface
         self.level = level
         self.clock = pg.time.Clock()
+
+        self.game_started = False
 
         self.sprite_groups = {
             group: pg.sprite.Group() for group in SPRITE_GROUPS
@@ -32,7 +35,7 @@ class Game:
         self.coin_image = load_image("coin.png")
         self.coin_counter = DynamicText(self, (145, 580), self.get_coins, color=GOLD, size=32)
 
-        self.play_image = load_image("play.png")
+        self.play_image_button = PlayButton(self, (20, 580))
 
         self.wave_image = load_image("wave.png")
         self.wave_counter = DynamicText(self, (285, 580), self.get_current_wave, color=WHITE, size=32)
@@ -44,11 +47,13 @@ class Game:
         self.weapon_shop.init_shop()
         self.click_to_confirm_image = load_image("click_to_confirm.png")
 
-        self.spawn_platform.next_wave()
-
     @property
     def weapon_shop_opened(self):
         return isinstance(self.game_field.selected_cell_obj, WeaponPlatform)
+
+    def start_game(self):
+        self.spawn_platform.next_wave()
+        self.game_started = True
 
     def run(self):
         while True:
@@ -75,8 +80,6 @@ class Game:
         self.surface.blit(self.coin_image, (85, 580))
         self.surface.blit(self.coin_counter.image, self.coin_counter.pos)
 
-        self.surface.blit(self.play_image, (20, 580))
-
         self.surface.blit(self.wave_image, (210, 570))
         self.surface.blit(self.wave_counter.image, self.wave_counter.pos)
 
@@ -84,6 +87,7 @@ class Game:
         self.surface.blit(self.life_counter.image, self.life_counter.pos)
 
         self.sprite_groups["enemies"].draw(self.surface)
+        self.sprite_groups["buttons"].draw(self.surface)
 
         for enemy in self.sprite_groups["enemies"].sprites():
             enemy.draw_hp_bar()
@@ -108,6 +112,9 @@ class Game:
             self.weapon_shop.on_click(cell)
         else:
             self.game_field.unselect_cell()
+
+        if self.play_image_button.clicked(pos):
+            self.play_image_button.on_click()
 
     def get_coins(self):
         return self.coins
