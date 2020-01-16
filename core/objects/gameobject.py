@@ -40,3 +40,14 @@ class GameObject(pg.sprite.Sprite):
             cell = other.cell if other.cell else self.field.get_cell(other.pos)
             return abs(self.cell[0] - cell[0]), abs(self.cell[1] - cell[1])
         return abs(self.rect.x - other.rect.x), abs(self.rect.y - other.rect.y)
+
+    def get_center_distance(self, other):
+        dx = pow(self.rect.center[0] - other.rect.center[0], 2)
+        dy = pow(self.rect.center[1] - other.rect.center[1], 2)
+        return pow(dx + dy, 0.5)
+
+    def get_x_center_distance(self, other):
+        return abs(self.rect.center[0] - other.rect.center[0])
+
+    def get_y_center_distance(self, other):
+        return abs(self.rect.center[1] - other.rect.center[1])

@@ -1,8 +1,8 @@
 from core.objects.gameobject import GameObject
 from core.objects.platforms.road import Road
-from core.utils import get_center_distance_from_way
 
 import pygame as pg
+
 
 class Enemy(GameObject):
     IMAGE = None
@@ -24,7 +24,13 @@ class Enemy(GameObject):
     def update(self):
         self.current_cell = self.game.game_field.get_cell_obj(self.game.game_field.get_cell((self.pos)))
         if isinstance(self.current_cell, Road):
-            if get_center_distance_from_way(self.rect, self.current_cell.rect, self.current_way) < 2:
+            # Если текущее направление по оси X, то нас интересует только dx между мобом и клеткой
+            if self.current_way in (">", "<"):
+                distance = self.get_x_center_distance(self.current_cell)
+            else:
+                distance = self.get_y_center_distance(self.current_cell)
+            # Расстояние между центрами проверяется для того, чтобы моб поворачивал примерно по центру клетки
+            if distance < 5:
                 self.current_way = self.current_cell.way
         else:
             self.current_way = self.game.spawn_platform.get_way_to_road()

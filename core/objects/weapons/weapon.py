@@ -1,6 +1,5 @@
 import pygame as pg
 from core.objects.gameobject import GameObject
-from core.utils import get_center_distance_from_way
 
 
 class Weapon(GameObject):
@@ -40,7 +39,7 @@ class Weapon(GameObject):
         for enemy in self.game.sprite_groups["enemies"].sprites():
             if any(d > self.radius for d in self - enemy):
                 continue
-            distance = get_center_distance_from_way(self.rect, enemy.rect, enemy.current_way)
+            distance = self.get_center_distance(enemy)
             distances.append((enemy, distance))
         if distances:
             return min(distances, key=lambda e: e[1])[0]
