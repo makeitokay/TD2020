@@ -34,7 +34,7 @@ class Spawn(Platform):
             self.angle += 1
             self.rect = self.image.get_rect()
             self.rect.center = center
-            self.next_frame += self.FRAMES_CHANGING
+            self.next_frame += (self.FRAMES_CHANGING // self.speed)
         super().update()
 
     def set_level(self, level):

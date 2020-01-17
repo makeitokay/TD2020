@@ -22,7 +22,7 @@ class Weapon(GameObject):
 
     @property
     def _attack_speed(self):
-        return self.attack_speed * 1000
+        return (self.attack_speed * 1000) // self.speed
 
     def update(self):
         if pg.time.get_ticks() < self.next_attack:

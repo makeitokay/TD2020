@@ -36,8 +36,8 @@ class Enemy(GameObject):
             self.current_way = self.game.spawn_platform.get_way_to_road()
 
         dx, dy = Road.WAYS[self.current_way]
-        self.rect.x += dx
-        self.rect.y += dy
+        self.rect.x += dx * self.speed
+        self.rect.y += dy * self.speed
 
     def hit(self, damage):
         self.hp -= damage

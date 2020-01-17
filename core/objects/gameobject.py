@@ -31,6 +31,8 @@ class GameObject(pg.sprite.Sprite):
         else:
             self.rect.x, self.rect.y = self.field.get_cell_coordinates(cell)
 
+        self.speed = 1
+
     @property
     def pos(self):
         return self.rect.topleft
@@ -40,6 +42,9 @@ class GameObject(pg.sprite.Sprite):
             cell = other.cell if other.cell else self.field.get_cell(other.pos)
             return abs(self.cell[0] - cell[0]), abs(self.cell[1] - cell[1])
         return abs(self.rect.x - other.rect.x), abs(self.rect.y - other.rect.y)
+
+    def change_speed(self, speed):
+        self.speed = speed
 
     def get_center_distance(self, other):
         dx = pow(self.rect.center[0] - other.rect.center[0], 2)

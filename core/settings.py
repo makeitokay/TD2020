@@ -4,7 +4,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 GAME_NAME = 'TD2020'
 
-FPS = 60
+FPS = 30
 SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 650
 
 GAME_FIELD_CELL_SIZE = 50

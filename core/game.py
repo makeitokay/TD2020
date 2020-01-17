@@ -11,6 +11,7 @@ from .objects.platforms.weapon_platform import WeaponPlatform
 from core.field.weapon_shop_field import WeaponShopField
 from core.events import ENEMY_SPAWN, NEXT_WAVE
 from core.objects.buttons.play_button import PlayButton
+from core.objects.buttons.speed_change_button import SpeedChangeButton
 
 
 class Game:
@@ -36,6 +37,7 @@ class Game:
         self.coin_counter = DynamicText(self, (145, 580), self.get_coins, color=GOLD, size=32)
 
         self.play_image_button = PlayButton(self, (20, 580))
+        self.speed_change_button = None
 
         self.wave_image = load_image("wave.png")
         self.wave_counter = DynamicText(self, (285, 580), self.get_current_wave, color=WHITE, size=32)
@@ -113,8 +115,10 @@ class Game:
         else:
             self.game_field.unselect_cell()
 
-        if self.play_image_button.clicked(pos):
-            self.play_image_button.on_click()
+        for button in self.sprite_groups["buttons"].sprites():
+            if button.alive() and button.clicked(pos):
+                button.on_click()
+                break
 
     def get_coins(self):
         return self.coins
@@ -134,3 +138,10 @@ class Game:
 
     def set_event(self, id, delay):
         pg.time.set_timer(id, delay)
+
+    def init_speed_change_button(self):
+        self.speed_change_button = SpeedChangeButton(self, (20, 580))
+
+    def change_speed(self, speed):
+        for sprite in self.sprite_groups["all"].sprites():
+            sprite.change_speed(speed)

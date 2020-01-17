@@ -9,4 +9,5 @@ class PlayButton(Button):
 
     def on_click(self):
         self.game.start_game()
+        self.game.init_speed_change_button()
         self.kill()
