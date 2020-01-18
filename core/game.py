@@ -10,6 +10,7 @@ from .objects.platforms.weapon_platform import WeaponPlatform
 
 from core.field.weapon_shop_field import WeaponShopField
 from core.events import ENEMY_SPAWN, NEXT_WAVE
+from core.events.event import Event
 from core.objects.buttons.play_button import PlayButton
 from core.objects.buttons.speed_change_button import SpeedChangeButton
 
@@ -18,6 +19,7 @@ class Game:
     def __init__(self, surface, level=1):
         self.surface = surface
         self.level = level
+
         self.clock = pg.time.Clock()
 
         self.game_started = False
@@ -27,6 +29,9 @@ class Game:
         }
 
         self.hp = 20
+        self.speed = 1
+
+        self.events = {}
 
         self.game_field = GameField(self, (0, 0), level)
         self.game_field.init_level()
@@ -49,6 +54,7 @@ class Game:
         self.weapon_shop.init_shop()
         self.click_to_confirm_image = load_image("click_to_confirm.png")
 
+    # TODO: перенести в WeaponShopField
     @property
     def weapon_shop_opened(self):
         return isinstance(self.game_field.selected_cell_obj, WeaponPlatform)
@@ -59,7 +65,7 @@ class Game:
 
     def run(self):
         while True:
-            self.events()
+            self.handle_events()
             self.update()
             self.clock.tick(FPS)
 
@@ -96,15 +102,17 @@ class Game:
 
         pg.display.update()
 
-    def events(self):
+    def handle_events(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 terminate()
             elif event.type == pg.MOUSEBUTTONUP:
                 self.mouse_click_handler(event.pos)
-            elif event.type == ENEMY_SPAWN.id:
+            elif event.type == ENEMY_SPAWN:
+                self.events[ENEMY_SPAWN].trigger()
                 self.spawn_platform.next_enemy()
-            elif event.type == NEXT_WAVE.id:
+            elif event.type == NEXT_WAVE:
+                self.events[NEXT_WAVE].trigger()
                 self.spawn_platform.next_wave()
 
     def mouse_click_handler(self, pos):
@@ -137,11 +145,15 @@ class Game:
         self.game_field.set_weapon(weapon_class)
 
     def set_event(self, id, delay):
+        self.events[id] = Event(self, id, delay)
         pg.time.set_timer(id, delay)
 
     def init_speed_change_button(self):
         self.speed_change_button = SpeedChangeButton(self, (20, 580))
 
     def change_speed(self, speed):
+        self.speed = speed
         for sprite in self.sprite_groups["all"].sprites():
             sprite.change_speed(speed)
+        for event in self.events:
+            self.events[event].change_speed(speed)

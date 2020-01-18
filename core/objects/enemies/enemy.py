@@ -1,5 +1,6 @@
 from core.objects.gameobject import GameObject
 from core.objects.platforms.road import Road
+from core.settings import FPS
 
 import pygame as pg
 
@@ -18,7 +19,6 @@ class Enemy(GameObject):
         super().__init__(game, pos=pos)
 
         self.current_way = None
-
         self.hp = 0
 
     def update(self):
@@ -36,8 +36,8 @@ class Enemy(GameObject):
             self.current_way = self.game.spawn_platform.get_way_to_road()
 
         dx, dy = Road.WAYS[self.current_way]
-        self.rect.x += dx * self.speed
-        self.rect.y += dy * self.speed
+        self.rect.x = self.rect.x + dx * self.speed
+        self.rect.y = self.rect.y + dy * self.speed
 
     def hit(self, damage):
         self.hp -= damage
@@ -45,8 +45,7 @@ class Enemy(GameObject):
             self.kill()
 
     def draw_hp_bar(self):
-        length = 30
-        fill = (self.hp / self.MAX_HP) * length
+        fill = (self.hp / self.MAX_HP) * self.HP_BAR_LENGTH
         outline_rect = pg.Rect(self.rect.x, self.rect.y - 10, self.HP_BAR_LENGTH, self.HP_BAR_HEIGHT)
         fill_rect = pg.Rect(self.rect.x, self.rect.y - 10, fill, self.HP_BAR_HEIGHT)
         pg.draw.rect(self.game.surface, pg.Color("GREEN"), fill_rect)

@@ -13,7 +13,7 @@ class Spawn(Platform):
 
     SPRITE_GROUPS = ["platforms", "spawn"]
 
-    FRAMES_CHANGING = 30
+    FRAMES_CHANGING = 90
 
     def __init__(self, game, cell):
         super().__init__(game, cell)
@@ -46,8 +46,8 @@ class Spawn(Platform):
         self.current_enemy = 0
 
         wave_info = self.waves[self.current_wave - 1]
-        self.game.set_event(ENEMY_SPAWN.id, wave_info["spawn_interval"])
-        self.game.set_event(NEXT_WAVE.id, wave_info["time"])
+        self.game.set_event(ENEMY_SPAWN, wave_info["spawn_interval"])
+        self.game.set_event(NEXT_WAVE, wave_info["time"])
 
         self.next_enemy()
 
@@ -60,7 +60,8 @@ class Spawn(Platform):
 
     def get_way_to_road(self):
         x, y = self.cell
-        for way in Road.WAYS:
-            dx, dy = Road.WAYS[way]
-            if isinstance(self.game.game_field.get_cell_obj((x + dx, y + dy)), Road):
-                return way
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                cell_obj = self.game.game_field.get_cell_obj((x + i, y + j))
+                if isinstance(cell_obj, Road):
+                    return cell_obj.way

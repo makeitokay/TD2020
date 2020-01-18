@@ -31,7 +31,7 @@ class GameObject(pg.sprite.Sprite):
         else:
             self.rect.x, self.rect.y = self.field.get_cell_coordinates(cell)
 
-        self.speed = 1
+        self.speed = self.game.speed
 
     @property
     def pos(self):
