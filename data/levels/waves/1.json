@@ -1,8 +1,8 @@
 [
   {
-    "N": 1,
+    "N": 10,
     "time": 60000,
-    "spawn_interval": 500
+    "spawn_interval": 2000
   },
   {
     "N": 10,

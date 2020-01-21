@@ -50,6 +50,8 @@ class Game:
         self.life_image = load_image("life.png")
         self.life_counter = DynamicText(self, (355, 580), self.get_current_hp, color=RED, size=32)
 
+        self.next_wave_time_counter = None
+
         self.weapon_shop = WeaponShopField(self, (RIGHT_BLOCK_X, 100))
         self.weapon_shop.init_shop()
         self.click_to_confirm_image = load_image("click_to_confirm.png")
@@ -61,6 +63,7 @@ class Game:
 
     def start_game(self):
         self.spawn_platform.next_wave()
+        self.next_wave_time_counter = DynamicText(self, (400, 580), self.get_next_wave_time, color=WHITE, size=32)
         self.game_started = True
 
     def run(self):
@@ -86,14 +89,10 @@ class Game:
                 self.surface.blit(self.click_to_confirm_image, (RIGHT_BLOCK_X, 310))
 
         self.surface.blit(self.coin_image, (85, 580))
-        self.surface.blit(self.coin_counter.image, self.coin_counter.pos)
-
         self.surface.blit(self.wave_image, (210, 570))
-        self.surface.blit(self.wave_counter.image, self.wave_counter.pos)
-
         self.surface.blit(self.life_image, (305, 580))
-        self.surface.blit(self.life_counter.image, self.life_counter.pos)
 
+        self.sprite_groups["text"].draw(self.surface)
         self.sprite_groups["enemies"].draw(self.surface)
         self.sprite_groups["buttons"].draw(self.surface)
 
@@ -137,6 +136,9 @@ class Game:
     def get_current_hp(self):
         return self.hp
 
+    def get_next_wave_time(self):
+        return str(self.events[NEXT_WAVE].time_to_trigger // 1000)
+
     def buy_weapon(self, weapon_class):
         if self.coins < weapon_class.COST:
             return
@@ -146,7 +148,6 @@ class Game:
 
     def set_event(self, id, delay):
         self.events[id] = Event(self, id, delay)
-        pg.time.set_timer(id, delay)
 
     def init_speed_change_button(self):
         self.speed_change_button = SpeedChangeButton(self, (20, 580))
