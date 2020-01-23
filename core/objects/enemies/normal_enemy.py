@@ -6,9 +6,7 @@ class NormalEnemy(Enemy):
 
     SPRITE_GROUPS = ["enemies", "normal_enemies"]
 
-    MAX_HP = 2
+    MAX_HP = 4
 
     def __init__(self, game, pos):
         super().__init__(game, pos=pos)
-
-        self.hp = 2

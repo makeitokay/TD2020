@@ -38,10 +38,14 @@ class GameObject(pg.sprite.Sprite):
         return self.rect.topleft
 
     def __sub__(self, other):
-        if self.cell:
+        if all(obj.cell is None for obj in (self, other)):
+            return abs(self.rect.x - other.rect.x), abs(self.rect.y - other.rect.y)
+
+        if self.field:
             cell = other.cell if other.cell else self.field.get_cell(other.pos)
             return abs(self.cell[0] - cell[0]), abs(self.cell[1] - cell[1])
-        return abs(self.rect.x - other.rect.x), abs(self.rect.y - other.rect.y)
+        cell = other.field.get_cell(self.pos)
+        return abs(other.cell[0] - cell[0]), abs(other.cell[1] - cell[1])
 
     def change_speed(self, speed):
         self.speed = speed

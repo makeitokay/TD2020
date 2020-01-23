@@ -20,6 +20,8 @@ class Weapon(GameObject):
 
         self.next_attack = pg.time.get_ticks()
 
+        self.target = None
+
     @property
     def _attack_speed(self):
         return (self.attack_speed * 1000) / self.speed
@@ -28,16 +30,18 @@ class Weapon(GameObject):
         if pg.time.get_ticks() < self.next_attack:
             return
 
-        nearest_enemy = self.get_nearest_enemy_in_radius()
-        if nearest_enemy:
-            nearest_enemy.hit(self.damage)
+        if self.target is None or not self.target.in_radius(self) or not self.target.alive():
+            self.target = self.get_nearest_enemy_in_radius()
+
+        if self.target:
+            self.target.hit(self.damage)
 
         self.next_attack += self._attack_speed
 
     def get_nearest_enemy_in_radius(self):
         distances = []
         for enemy in self.game.sprite_groups["enemies"].sprites():
-            if any(d > self.radius for d in self - enemy):
+            if not enemy.in_radius(self):
                 continue
             distance = self.get_center_distance(enemy)
             distances.append((enemy, distance))

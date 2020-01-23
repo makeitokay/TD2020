@@ -19,7 +19,8 @@ class Enemy(GameObject):
         super().__init__(game, pos=pos)
 
         self.current_way = None
-        self.hp = 0
+        self.current_cell = None
+        self.hp = self.MAX_HP
 
     def update(self):
         self.current_cell = self.game.game_field.get_cell_obj(self.game.game_field.get_cell((self.pos)))
@@ -38,6 +39,9 @@ class Enemy(GameObject):
         dx, dy = Road.WAYS[self.current_way]
         self.rect.x = self.rect.x + dx * self.speed
         self.rect.y = self.rect.y + dy * self.speed
+
+    def in_radius(self, weapon):
+        return not any(d > weapon.radius for d in self - weapon)
 
     def hit(self, damage):
         self.hp -= damage
