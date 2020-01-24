@@ -1,11 +1,11 @@
 [
   {
-    "N": 30,
+    "N": 20,
     "time": 20000,
     "spawn_interval": 1000
   },
   {
-    "N": 10,
+    "N": 20,
     "time": 30000,
     "spawn_interval": 500
   }

@@ -92,9 +92,11 @@ class Game:
         self.surface.blit(self.wave_image, (210, 570))
         self.surface.blit(self.life_image, (305, 580))
 
+        # TODO: объединить
         self.sprite_groups["text"].draw(self.surface)
         self.sprite_groups["enemies"].draw(self.surface)
         self.sprite_groups["buttons"].draw(self.surface)
+        self.sprite_groups["bullets"].draw(self.surface)
 
         for enemy in self.sprite_groups["enemies"].sprites():
             enemy.draw_hp_bar()

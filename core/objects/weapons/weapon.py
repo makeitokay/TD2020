@@ -1,6 +1,8 @@
 import pygame as pg
-from core.objects.gameobject import GameObject
 import math
+
+from core.objects.gameobject import GameObject
+from core.objects.bullets.bullet import Bullet
 
 
 class Weapon(GameObject):
@@ -10,6 +12,8 @@ class Weapon(GameObject):
     SHOP_IMAGE = None
 
     NAME = None
+
+    RADIUS = 0
 
     def __init__(self, game, cell):
         super().__init__(game, game.game_field, cell)
@@ -32,7 +36,7 @@ class Weapon(GameObject):
         return (self.attack_speed * 1000) / self.speed
 
     @property
-    def _target_angle(self):
+    def target_angle(self):
         if not self.target:
             return None
 
@@ -43,7 +47,12 @@ class Weapon(GameObject):
 
     @property
     def _can_attack(self):
-        return abs(self._target_angle - self.angle) < 15
+        return abs(self.target_angle - self.angle) < 15
+
+    @property
+    def gun_pos(self):
+        return self.RADIUS * math.cos(math.radians(self.angle)) + self.rect.center[0], \
+               self.RADIUS * -math.sin(math.radians(self.angle)) + self.rect.center[1]
 
     def update(self):
         self.do_rotate()
@@ -65,7 +74,7 @@ class Weapon(GameObject):
         self.set_target()
 
         if self.target and self._can_attack:
-            self.target.hit(self.damage)
+            Bullet(self.game, self, self.target)
             self.next_attack = pg.time.get_ticks()
 
     def do_rotate(self):
@@ -74,7 +83,7 @@ class Weapon(GameObject):
 
         # Поворачиваемся, если разница между требуемым и текущим углами большая (т. е. атаковать невозможно)
         if not self._can_attack:
-            way_coefficient = 1 if self._target_angle > self.angle else -1
+            way_coefficient = 1 if self.target_angle > self.angle else -1
             self.angle += self.move_speed * self.speed * way_coefficient
 
             center = self.rect.center

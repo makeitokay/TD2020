@@ -13,6 +13,8 @@ class BaseWeapon(Weapon):
 
     COST = 48
 
+    RADIUS = 35 // 2
+
     def __init__(self, game, cell):
         super().__init__(game, cell)
 

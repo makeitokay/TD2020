@@ -32,5 +32,7 @@ SPRITE_GROUPS = [
     "enemies",
     "normal_enemies",
 
-    "buttons"
+    "buttons",
+
+    "bullets"
 ]
