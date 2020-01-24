@@ -17,6 +17,6 @@ class BaseWeapon(Weapon):
         super().__init__(game, cell)
 
         self.damage = 1
-        self.radius = 3
+        self.radius = 1
         self.attack_speed = 1
-        self.move_speed = 1
+        self.move_speed = 5

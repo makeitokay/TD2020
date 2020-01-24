@@ -44,6 +44,7 @@ class GameObject(pg.sprite.Sprite):
         if self.field:
             cell = other.cell if other.cell else self.field.get_cell(other.pos)
             return abs(self.cell[0] - cell[0]), abs(self.cell[1] - cell[1])
+
         cell = other.field.get_cell(self.pos)
         return abs(other.cell[0] - cell[0]), abs(other.cell[1] - cell[1])
 

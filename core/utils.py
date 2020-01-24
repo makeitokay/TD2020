@@ -12,6 +12,12 @@ BLUE = pg.Color(0, 255, 255)
 GOLD = pg.Color(255, 223, 0)
 RED = pg.Color("RED")
 
+# Ways of movement
+
+RIGHT = ">"
+BOTTOM = "v"
+LEFT = "<"
+TOP = "^"
 
 # Useful functions
 

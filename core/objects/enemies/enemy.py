@@ -1,6 +1,6 @@
 from core.objects.gameobject import GameObject
 from core.objects.platforms.road import Road
-from core.settings import FPS
+from core.utils import LEFT, RIGHT
 
 import pygame as pg
 
@@ -26,7 +26,7 @@ class Enemy(GameObject):
         self.current_cell = self.game.game_field.get_cell_obj(self.game.game_field.get_cell((self.pos)))
         if isinstance(self.current_cell, Road):
             # Если текущее направление по оси X, то нас интересует только dx между мобом и клеткой
-            if self.current_way in (">", "<"):
+            if self.current_way in (LEFT, RIGHT):
                 distance = self.get_x_center_distance(self.current_cell)
             else:
                 distance = self.get_y_center_distance(self.current_cell)
