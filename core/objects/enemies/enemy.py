@@ -15,12 +15,12 @@ class Enemy(GameObject):
 
     MAX_HP = 0
 
-    def __init__(self, game, pos):
+    def __init__(self, game, hardness, pos):
         super().__init__(game, pos=pos)
 
         self.current_way = None
         self.current_cell = None
-        self.hp = self.MAX_HP
+        self.max_hp = self.hp = hardness * self.MAX_HP
 
     def update(self):
         self.current_cell = self.game.game_field.get_cell_obj(self.game.game_field.get_cell((self.pos)))
@@ -49,7 +49,7 @@ class Enemy(GameObject):
             self.kill()
 
     def draw_hp_bar(self):
-        fill = (self.hp / self.MAX_HP) * self.HP_BAR_LENGTH
+        fill = (self.hp / self.max_hp) * self.HP_BAR_LENGTH
         outline_rect = pg.Rect(self.rect.x, self.rect.y - 10, self.HP_BAR_LENGTH, self.HP_BAR_HEIGHT)
         fill_rect = pg.Rect(self.rect.x, self.rect.y - 10, fill, self.HP_BAR_HEIGHT)
         pg.draw.rect(self.game.surface, pg.Color("GREEN"), fill_rect)

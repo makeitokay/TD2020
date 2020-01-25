@@ -1,11 +1,12 @@
 import pygame as pg
 
 from .platform import Platform
-from core.utils import load_waves
+from core.utils import load_waves, terminate
 import core.objects.enemies
 
 from core.events import NEXT_WAVE, ENEMY_SPAWN
 from core.objects.platforms.road import Road
+
 
 class Spawn(Platform):
     IMAGE = "platforms/spawn.png"
@@ -46,6 +47,10 @@ class Spawn(Platform):
         self.current_enemy = 0
 
         wave_info = self.waves[self.current_wave - 1]
+
+        if wave_info["time"] == -1:
+            self.game.prepare_last_wave()
+
         self.game.set_event(ENEMY_SPAWN, wave_info["spawn_interval"])
         self.game.set_event(NEXT_WAVE, wave_info["time"])
 
@@ -55,7 +60,7 @@ class Spawn(Platform):
         wave_info = self.waves[self.current_wave - 1]
         for key in wave_info:
             if key in ("N",) and wave_info[key] > 0:
-                core.objects.enemies.load_enemy(self.game, self.pos, key)
+                core.objects.enemies.load_enemy(self.game, self.pos, key, int(wave_info["hardness"]))
                 wave_info[key] -= 1
 
     def get_way_to_road(self):

@@ -22,7 +22,8 @@ class Game:
 
         self.clock = pg.time.Clock()
 
-        self.game_started = False
+        # Началась ли игра? (волны)
+        self.game = False
 
         self.sprite_groups = {
             group: pg.sprite.Group() for group in SPRITE_GROUPS
@@ -64,7 +65,7 @@ class Game:
     def start_game(self):
         self.spawn_platform.next_wave()
         self.next_wave_time_counter = DynamicText(self, (400, 580), self.get_next_wave_time, color=WHITE, size=32)
-        self.game_started = True
+        self.game = True
 
     def run(self):
         while True:
@@ -73,6 +74,12 @@ class Game:
             self.clock.tick(FPS)
 
     def update(self):
+        if self.hp == 0:
+            terminate()
+        # Если началась игра, но счетчика времени след. волны уже нет и ни одного врага тоже - уровень пройден
+        if self.game and not self.next_wave_time_counter.alive() and not self.sprite_groups["enemies"].sprites():
+            terminate()
+
         self.sprite_groups["all"].update()
 
         self.surface.fill((0, 0, 0))
@@ -150,6 +157,14 @@ class Game:
 
     def set_event(self, id, delay):
         self.events[id] = Event(self, id, delay)
+
+    def stop_event(self, id):
+        pg.time.set_timer(id, 0)
+        del self.events[id]
+
+    def prepare_last_wave(self):
+        self.next_wave_time_counter.kill()
+        self.stop_event(NEXT_WAVE)
 
     def init_speed_change_button(self):
         self.speed_change_button = SpeedChangeButton(self, (20, 580))
