@@ -1,6 +1,6 @@
 from core.objects.gameobject import GameObject
 from core.objects.platforms.road import Road
-from core.utils import LEFT, RIGHT
+from core.utils import LEFT, RIGHT, WHITE, GREEN, RED, GOLDENROD
 
 import pygame as pg
 
@@ -49,8 +49,15 @@ class Enemy(GameObject):
             self.kill()
 
     def draw_hp_bar(self):
-        fill = (self.hp / self.max_hp) * self.HP_BAR_LENGTH
+        hp_percent = (self.hp / self.max_hp)
+        if round(hp_percent, 2) >= 0.67:
+            color = GREEN
+        elif 0.33 < round(hp_percent, 2) < 0.66:
+            color = GOLDENROD
+        else:
+            color = RED
+        fill = hp_percent * self.HP_BAR_LENGTH
         outline_rect = pg.Rect(self.rect.x, self.rect.y - 10, self.HP_BAR_LENGTH, self.HP_BAR_HEIGHT)
         fill_rect = pg.Rect(self.rect.x, self.rect.y - 10, fill, self.HP_BAR_HEIGHT)
-        pg.draw.rect(self.game.surface, pg.Color("GREEN"), fill_rect)
-        pg.draw.rect(self.game.surface, pg.Color("WHITE"), outline_rect, 2)
+        pg.draw.rect(self.game.surface, color, fill_rect)
+        pg.draw.rect(self.game.surface, WHITE, outline_rect, 2)

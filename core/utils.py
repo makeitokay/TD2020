@@ -11,6 +11,8 @@ WHITE = pg.Color("WHITE")
 BLUE = pg.Color(0, 255, 255)
 GOLD = pg.Color(255, 223, 0)
 RED = pg.Color("RED")
+GREEN = pg.Color("GREEN")
+GOLDENROD = pg.Color(218, 165, 32)
 
 # Ways of movement
 
